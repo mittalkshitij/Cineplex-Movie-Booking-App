@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/merriweather</item>
+        <item>@font/merriweather_black</item>
+        <item>@font/merriweather_black_italic</item>
+        <item>@font/merriweather_bold</item>
+        <item>@font/merriweather_bold_italic</item>
+        <item>@font/merriweather_italic</item>
+        <item>@font/merriweather_light</item>
+        <item>@font/merriweather_light_italic</item>
+    </array>
+</resources>
