@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553176964413",
+    "project_id": "master-app-93bfd",
+    "storage_bucket": "master-app-93bfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553176964413:android:b328b616cd3ce9d660b954",
+        "android_client_info": {
+          "package_name": "com.example.traningcomposeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1gg-ijlPTuvKMxoOofbQoDYoGOJFD364"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
