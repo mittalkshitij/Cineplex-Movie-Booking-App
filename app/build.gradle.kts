@@ -19,6 +19,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -43,6 +46,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 kapt {
@@ -55,16 +63,29 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
+    //Splash Screem
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    //GSON
+    implementation("com.google.code.gson:gson:2.10.1")
+
     //Dependency Injection - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     //Jetpack Compose
     val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
+    implementation("androidx.compose.ui:ui-text-google-fonts")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -84,5 +105,13 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
+
+    //Navigation Compose
+    val nav_version = "2.7.7"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 
 }
