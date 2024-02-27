@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">Traning Compose App</string>
+    <string name="app_name">CinePlex</string>
+    <string name="title_activity_on_boarding">OnBoardingActivity</string>
+
+    //onboarding
+    <string name="agree_terms_condition">By sign in or sign up, you agree to our Terms of Service \n and Privacy Policy</string>
+
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="text_continue">Continue</string>
+    <string name="done">Done</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="confirm_otp_code">Confirm OTP code</string>
+    <string name="enter_otp_mobile_number">Enter the OTP sent to the registered phone number (704) 555–0127.</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="username">Username</string>
 </resources>

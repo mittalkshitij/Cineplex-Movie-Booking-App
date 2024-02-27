@@ -1,0 +1,19 @@
+{
+  "pager": [
+    {
+      "image": "https://i.etsystatic.com/37166133/r/il/60f034/4087791906/il_570xN.4087791906_jcbj.jpg",
+      "title": "Get the best seat to your next cinematic treat",
+      "subtitle" : "SubTitle 1"
+    },
+    {
+      "image": "https://pbs.twimg.com/media/FUdlA2uaUAAn3PY.jpg:large",
+      "title": "Never miss a blockbuster with us",
+      "subtitle" : "SubTitle 1"
+    },
+    {
+      "image": "https://media1.popsugar-assets.com/files/thumbor/k0-1TuJZxd86KVB8tss04CZBacc=/1047x1572/filters:format_auto():quality(85):extract_cover()/2014/06/10/799/n/1922283/a7fd727309a42077_the_fault_in_our_stars_poster.jpg",
+      "title": "Take a seat, the movie’s about to begin",
+      "subtitle" : "SubTitle 1"
+    }
+  ]
+}
