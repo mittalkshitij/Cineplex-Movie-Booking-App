@@ -18,7 +18,7 @@ import com.example.traningcomposeapp.onboarding.ui.screens.LauncherScreen
 import com.example.traningcomposeapp.onboarding.ui.screens.OTPScreen
 import com.example.traningcomposeapp.onboarding.ui.screens.SignScreen
 import com.example.traningcomposeapp.onboarding.ui.screens.UserNameScreen
-import com.example.traningcomposeapp.ui.theme.TraningComposeAppTheme
+import com.example.traningcomposeapp.ui.theme.CinePlexAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +26,7 @@ class OnBoardingActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TraningComposeAppTheme {
+            CinePlexAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
@@ -78,7 +78,7 @@ fun OnBoardingNavigationHandler() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    TraningComposeAppTheme {
+    CinePlexAppTheme {
 
     }
 }
