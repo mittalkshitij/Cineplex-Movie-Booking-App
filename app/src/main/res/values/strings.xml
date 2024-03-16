@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CinePlex</string>
-    <string name="title_activity_on_boarding">OnBoardingActivity</string>
+    <string name="activity_on_boarding">OnBoardingActivity</string>
+    <string name="activity_home">HomeActivity</string>
 
     //onboarding
     <string name="agree_terms_condition">By sign in or sign up, you agree to our Terms of Service \n and Privacy Policy</string>
