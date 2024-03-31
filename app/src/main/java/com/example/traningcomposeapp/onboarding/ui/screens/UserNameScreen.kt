@@ -11,6 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -29,12 +33,14 @@ import com.example.traningcomposeapp.common.TextFieldCompose
 import com.example.traningcomposeapp.ui.theme.TextStyleBold24
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 import com.example.traningcomposeapp.ui.theme.fontFamily
+import com.example.traningcomposeapp.utils.Constants.EMPTY
 import com.example.traningcomposeapp.utils.RegexUtils
 
 @Composable
-fun UserNameScreen(onBackPressed: () -> Unit, onDoneClick: () -> Unit) {
+fun UserNameScreen(onBackPressed: () -> Unit, onDoneClick: (String) -> Unit) {
 
     val context = LocalContext.current
+    var usernameValue by remember { mutableStateOf(EMPTY) }
 
     Scaffold(
         topBar = {
@@ -47,9 +53,9 @@ fun UserNameScreen(onBackPressed: () -> Unit, onDoneClick: () -> Unit) {
                 text = stringResource(id = R.string.done),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
+                    .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
             ) {
-                onDoneClick()
+                onDoneClick(usernameValue)
             }
         }) { paddingValues ->
         paddingValues.calculateTopPadding()
@@ -67,10 +73,16 @@ fun UserNameScreen(onBackPressed: () -> Unit, onDoneClick: () -> Unit) {
                 color = colorResource(id = R.color.widget_background_1),
                 style = TextStyleBold24
             )
+
             TextFieldCompose(
+                textFieldValue = usernameValue,
+                onValueChange = {
+                    if (it.length <= 20 && it.matches(RegexUtils.onlyAlphabetRegex)) {
+                        usernameValue = it
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth(),
-                regex = RegexUtils.onlyAlphabetRegex,
                 textStyle = TextStyleNormal14,
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done,

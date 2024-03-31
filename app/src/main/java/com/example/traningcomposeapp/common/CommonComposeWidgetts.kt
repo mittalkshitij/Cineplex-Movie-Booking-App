@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -61,7 +60,8 @@ fun AppToolbar(
             Text(
                 text = title,
                 color = colorResource(id = R.color.white),
-                style = TextStyleMedium18
+                style = TextStyleMedium18,
+                modifier = modifier
             )
         },
         navigationIcon = {
@@ -163,7 +163,7 @@ fun GlideImageCompose(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalPagerWithIndicator(pagerState: PagerState, content: @Composable (Int) -> Unit) {
-    HorizontalPager(state = pagerState) { page ->
+    HorizontalPager(state = pagerState, beyondBoundsPageCount = 2) { page ->
         content(page)
     }
 }
@@ -182,24 +182,18 @@ fun TermsAndPrivacyText() {
 @Composable
 fun TextFieldCompose(
     modifier: Modifier = Modifier,
-    regex: Regex,
-    maxTextLength: Int? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle = TextStyleNormal14,
     keyboardType: KeyboardType,
     imeAction: ImeAction,
     placeholder: @Composable (() -> Unit)?,
-    colors: TextFieldColors
+    colors: TextFieldColors,
+    textFieldValue: String,
+    onValueChange: (String) -> Unit
 ) {
-    val textRegex = remember { regex }
-    var textFieldValue by remember { mutableStateOf("") }
-
     TextField(
         value = textFieldValue,
-        onValueChange = {
-            if (it.length <= (maxTextLength ?: Int.MAX_VALUE) && it.matches(textRegex))
-                textFieldValue = it
-        },
+        onValueChange = onValueChange,
         leadingIcon = leadingIcon,
         textStyle = textStyle,
         singleLine = true,

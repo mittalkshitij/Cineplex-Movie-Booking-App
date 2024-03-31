@@ -15,4 +15,7 @@
     <string name="enter_otp_mobile_number">Enter the OTP sent to the registered phone number (704) 555–0127.</string>
     <string name="enter_username">Enter Username</string>
     <string name="username">Username</string>
+    <string name="search">Search</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="coming_soon">Coming Soon</string>
 </resources>

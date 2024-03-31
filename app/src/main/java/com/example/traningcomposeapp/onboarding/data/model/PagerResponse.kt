@@ -1,4 +1,4 @@
-package com.example.traningcomposeapp.onboarding.model
+package com.example.traningcomposeapp.onboarding.data.model
 
 import com.google.errorprone.annotations.Keep
 

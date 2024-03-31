@@ -49,7 +49,7 @@ fun OTPScreen(onBackPressed: () -> Unit, onContinueClick : () -> Unit) {
                 text = stringResource(id = R.string.text_continue),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
+                    .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
             ) {
                 onContinueClick()
             }

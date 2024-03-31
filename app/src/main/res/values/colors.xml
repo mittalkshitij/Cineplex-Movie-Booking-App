@@ -10,5 +10,7 @@
     <color name="widget_background_3">#686868</color>
     <color name="widget_background_4">#F2F2F2</color>
     <color name="widget_background_5">#261D08</color>
+    <color name="widget_background_6">#8C8C8C</color>
+    <color name="widget_background_7">#1C1C1C</color>
 
 </resources>
