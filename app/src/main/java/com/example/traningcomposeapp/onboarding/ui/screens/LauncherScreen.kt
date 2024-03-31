@@ -19,6 +19,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,7 +46,7 @@ import com.example.traningcomposeapp.common.CenterAlignedOutlinedButton
 import com.example.traningcomposeapp.common.GlideImageCompose
 import com.example.traningcomposeapp.common.HorizontalPagerWithIndicator
 import com.example.traningcomposeapp.common.TermsAndPrivacyText
-import com.example.traningcomposeapp.onboarding.model.PagerResponse
+import com.example.traningcomposeapp.onboarding.data.model.PagerResponse
 import com.example.traningcomposeapp.ui.theme.TextStyleBlack26
 import com.example.traningcomposeapp.ui.theme.TextStyleBold16
 import com.example.traningcomposeapp.ui.theme.fontFamily
@@ -63,11 +64,10 @@ fun LauncherScreen(onSignClicked: (String) -> Unit) {
     val pagerJsonResponse = Gson().fromJson(jsonString, PagerResponse::class.java)
 
     val pagerState = rememberPagerState(
-        pageCount = { pagerJsonResponse.pager.size }
+        pageCount = { pagerJsonResponse.pager.size },
     )
 
     LaunchedEffect(key1 = pagerState.currentPage) {
-        launch {
             delay(3000)
             with(pagerState) {
                 val target =
@@ -81,7 +81,6 @@ fun LauncherScreen(onSignClicked: (String) -> Unit) {
                     )
                 )
             }
-        }
     }
 
     Scaffold(
@@ -159,14 +158,16 @@ fun LauncherScreen(onSignClicked: (String) -> Unit) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    GlideImageCompose(
-                        model = pagerJsonResponse.pager[page].image,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(400.dp)
-                            .align(Alignment.CenterHorizontally)
-                    )
+                    Card {
+                        GlideImageCompose(
+                            model = pagerJsonResponse.pager[page].image,
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(400.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
                     Text(
                         text = pagerJsonResponse.pager[page].title,
                         color = colorResource(id = R.color.white),

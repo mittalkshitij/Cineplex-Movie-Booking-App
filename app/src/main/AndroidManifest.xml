@@ -32,7 +32,7 @@
         </activity>
 
         <activity
-            android:name=".home.ui.HomeActivity"
+            android:name=".home.ui.activity.HomeActivity"
             android:exported="true"
             android:label="@string/activity_home"
             android:theme="@style/Theme.TraningComposeApp">

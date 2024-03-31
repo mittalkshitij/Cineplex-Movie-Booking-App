@@ -11,6 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +34,14 @@ import com.example.traningcomposeapp.common.TermsAndPrivacyText
 import com.example.traningcomposeapp.common.TextFieldCompose
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 import com.example.traningcomposeapp.ui.theme.fontFamily
+import com.example.traningcomposeapp.utils.Constants.EMPTY
 import com.example.traningcomposeapp.utils.RegexUtils
 
 @Composable
 fun SignScreen(signText: String, onBackPressed: () -> Unit = {}, onContinueClick: () -> Unit) {
 
     val context = LocalContext.current
+    var phoneNumberValue by remember { mutableStateOf(EMPTY) }
 
     Scaffold(
         topBar = {
@@ -64,11 +70,15 @@ fun SignScreen(signText: String, onBackPressed: () -> Unit = {}, onContinueClick
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             TextFieldCompose(
+                textFieldValue = phoneNumberValue,
+                onValueChange = {
+                    if (it.length <= 10 && it.matches(RegexUtils.onlyNumberRegex)) {
+                        phoneNumberValue = it
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
-                regex = RegexUtils.onlyNumberRegex,
-                maxTextLength = 10,
                 leadingIcon = {
                     Image(
                         painter = painterResource(id = R.drawable.ic_call_svg),
