@@ -81,7 +81,7 @@ fun SignScreen(signText: String, onBackPressed: () -> Unit = {}, onContinueClick
                     .padding(horizontal = 24.dp),
                 leadingIcon = {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_call_svg),
+                        painter = painterResource(id = R.drawable.ic_call_outlined),
                         contentDescription = null
                     )
                 },
