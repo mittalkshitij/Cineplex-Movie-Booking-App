@@ -3,7 +3,12 @@ package com.example.traningcomposeapp.common
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +18,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -34,6 +41,7 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -44,8 +52,10 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.ui.theme.TextStyleBold
+import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleLight8
 import com.example.traningcomposeapp.ui.theme.TextStyleMedium18
+import com.example.traningcomposeapp.ui.theme.TextStyleNormal10
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 import kotlinx.coroutines.delay
 
@@ -224,4 +234,43 @@ fun CountdownTimer(time: Int, textStyle: TextStyle, modifier: Modifier) {
         textAlign = TextAlign.End,
         modifier = modifier
     )
+}
+
+@Composable
+fun HeaderText(text: String) {
+    Text(
+        text = text,
+        style = TextStyleBold18,
+        color = colorResource(id = R.color.widget_background_4)
+    )
+}
+
+@Composable
+fun MemberCard() {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.widget_background_7)
+        )
+    ) {
+        Row(
+            Modifier.padding(8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_round),
+                contentDescription = null,
+                Modifier
+                    .size(30.dp)
+                    .padding(end = 8.dp)
+            )
+            Text(
+                text = "Robert Downey Junior",
+                style = TextStyleNormal10,
+                softWrap = true,
+                color = colorResource(id = R.color.widget_background_4),
+                modifier = Modifier.width(80.dp)
+            )
+        }
+    }
 }

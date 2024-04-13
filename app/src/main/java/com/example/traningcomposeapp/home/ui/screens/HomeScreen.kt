@@ -2,6 +2,7 @@ package com.example.traningcomposeapp.home.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,7 +46,6 @@ import androidx.compose.ui.util.lerp
 import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.common.GlideImageCompose
 import com.example.traningcomposeapp.onboarding.data.model.PagerResponse
-import com.example.traningcomposeapp.ui.theme.TextStyleBold10
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleBold20
@@ -58,7 +58,7 @@ import com.google.gson.Gson
 import kotlin.math.absoluteValue
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,8 +69,8 @@ fun HomeScreen() {
     ) {
         WelcomeBackText()
         //SearchBarWidget()
-        NowPlayingWidget()
-        ComingSoonWidget()
+        NowPlayingWidget(onClick)
+        ComingSoonWidget(onClick)
     }
 }
 
@@ -132,7 +132,7 @@ fun SearchBarWidget() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NowPlayingWidget() {
+fun NowPlayingWidget(onClick: () -> Unit) {
     val context = LocalContext.current
     val jsonString = readJSONFromAssets(context, "onboardingPager.json")
     val pagerJsonResponse = Gson().fromJson(jsonString, PagerResponse::class.java)
@@ -162,6 +162,9 @@ fun NowPlayingWidget() {
         ) { page ->
             Card(
                 modifier = Modifier
+                    .clickable {
+                        onClick()
+                    }
                     .fillMaxWidth()
                     .graphicsLayer {
                         val pageOffset = (
@@ -186,7 +189,7 @@ fun NowPlayingWidget() {
 }
 
 @Composable
-fun ComingSoonWidget() {
+fun ComingSoonWidget(onClick: () -> Unit) {
     val context = LocalContext.current
 
     val jsonString = readJSONFromAssets(context, "onboardingPager.json")
@@ -205,12 +208,17 @@ fun ComingSoonWidget() {
         )
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             items(3) { index ->
-                Column {
+                Column(
+                    Modifier.clickable {
+                        onClick.invoke()
+                    }) {
                     Card() {
                         GlideImageCompose(
                             model = pagerJsonResponse.pager[index].image,
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.height(250.dp).width(170.dp)
+                            modifier = Modifier
+                                .height(250.dp)
+                                .width(170.dp)
                         )
                     }
                     Text(

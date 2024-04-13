@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -20,26 +19,18 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.traningcomposeapp.home.data.model.BottomNavItem
-import com.example.traningcomposeapp.home.ui.screens.HomeScreen
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
+import com.example.traningcomposeapp.navigation.AppNavGraph
+import com.example.traningcomposeapp.navigation.BottomNavItem
 import com.example.traningcomposeapp.ui.theme.CinePlexAppTheme
 import com.example.traningcomposeapp.ui.theme.TextStyleBold10
 import dagger.hilt.android.AndroidEntryPoint
-
-data class BottomNavigationItem(
-    val title: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
-)
 
 @AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
@@ -52,14 +43,11 @@ class HomeActivity : ComponentActivity() {
         setContent {
             CinePlexAppTheme {
                 val navController = rememberNavController()
-                var selectedIconIndex by rememberSaveable {
-                    mutableIntStateOf(0)
-                }
                 val bottomNavItem = listOf(
-                    BottomNavItem.Home,
-                    BottomNavItem.Ticket,
-                    BottomNavItem.Movie,
-                    BottomNavItem.Profile
+                    BottomNavItem.Home_BottomNav,
+                    BottomNavItem.Ticket_BottomNav,
+                    BottomNavItem.Movie_BottomNav,
+                    BottomNavItem.Profile_BottomNav
                 )
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -67,62 +55,67 @@ class HomeActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         bottomBar = {
-                            NavigationBar(
-                                containerColor = MaterialTheme.colorScheme.primary
-                            ) {
-                                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                                val currentDestination = navBackStackEntry?.destination
-                                bottomNavItem.forEachIndexed { index, item ->
-                                    NavigationBarItem(
-                                        colors = NavigationBarItemDefaults.colors(
-                                            selectedIconColor = MaterialTheme.colorScheme.secondary,
-                                            selectedTextColor = MaterialTheme.colorScheme.secondary,
-                                            indicatorColor = MaterialTheme.colorScheme.tertiary,
-                                            unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                                            unselectedTextColor = MaterialTheme.colorScheme.onPrimary
-                                        ),
-                                        selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
-                                        label = {
-                                            Text(
-                                                text = item.label,
-                                                style = TextStyleBold10
-                                            )
-                                        },
-                                        onClick = {
-                                            selectedIconIndex = index
-                                            navController.navigate(item.route) {
-                                                popUpTo(navController.graph.findStartDestination().id) {
-                                                    saveState = true
-                                                }
-                                                launchSingleTop = true
-                                                restoreState = true
-                                            }
-                                        },
-                                        icon = {
-                                            Icon(
-                                                painter = painterResource(id = item.icon),
-                                                contentDescription = item.label
-                                            )
-                                        })
-                                }
-                            }
+                            BottomNavBar(navController, bottomNavItem)
                         }
                     ) { innerPadding ->
-                        NavHost(
-                            navController,
-                            startDestination = BottomNavItem.Home.route,
-                            Modifier.padding(innerPadding)
-                        ) {
-                            composable(BottomNavItem.Home.route) {
-                                HomeScreen()
-                            }
-                            composable(BottomNavItem.Ticket.route) { }
-                            composable(BottomNavItem.Movie.route) { }
-                            composable(BottomNavItem.Profile.route) { }
-                        }
+                        AppNavGraph(
+                            navController = navController,
+                            innerPadding = innerPadding
+                        )
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun BottomNavBar(
+    navController: NavHostController,
+    bottomNavItem: List<BottomNavItem>
+) {
+    var selectedIconIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+        bottomNavItem.forEachIndexed { index, item ->
+            NavigationBarItem(
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.secondary,
+                    selectedTextColor = MaterialTheme.colorScheme.secondary,
+                    indicatorColor = MaterialTheme.colorScheme.tertiary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                label = {
+                    Text(
+                        text = item.label,
+                        style = TextStyleBold10
+                    )
+                },
+                onClick = {
+                    selectedIconIndex = index
+                    navController.navigate(item.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = item.icon),
+                        contentDescription = item.label
+                    )
+                }
+            )
         }
     }
 }
