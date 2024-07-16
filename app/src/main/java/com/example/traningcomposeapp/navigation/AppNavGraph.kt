@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.traningcomposeapp.home.ui.screens.HomeScreen
 import com.example.traningcomposeapp.home.ui.screens.MovieDetailsScreen
+import com.example.traningcomposeapp.home.ui.screens.MoviesScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
@@ -61,7 +62,9 @@ private fun NavGraphBuilder.addTicketRoute(navController: NavHostController) {
 }
 
 private fun NavGraphBuilder.addMovieRoute(navController: NavHostController) {
-    composable(BottomNavItem.Movie_BottomNav.route) { }
+    composable(BottomNavItem.Movie_BottomNav.route) {
+        MoviesScreen()
+    }
 }
 
 private fun NavGraphBuilder.addProfileRoute(navController: NavHostController) {
