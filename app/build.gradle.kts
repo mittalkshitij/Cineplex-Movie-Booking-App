@@ -107,7 +107,7 @@ dependencies {
     androidTestImplementation(composeBom)
 
     // Material Design 3
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.2.1")
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")
