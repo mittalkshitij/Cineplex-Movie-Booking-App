@@ -60,7 +60,8 @@ class HomeActivity : ComponentActivity() {
                     ) { innerPadding ->
                         AppNavGraph(
                             navController = navController,
-                            innerPadding = innerPadding
+                            innerPadding = innerPadding,
+                            homeViewModel = homeViewModel
                         )
                     }
                 }
