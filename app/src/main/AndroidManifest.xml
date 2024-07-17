@@ -22,7 +22,7 @@
             android:theme="@style/Theme.TraningComposeApp" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".launcher.ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

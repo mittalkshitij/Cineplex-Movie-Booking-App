@@ -28,16 +28,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.traningcomposeapp.R
-import com.example.traningcomposeapp.common.AppToolbar
-import com.example.traningcomposeapp.common.CenterAlignedButton
-import com.example.traningcomposeapp.common.CountdownTimer
+import com.example.traningcomposeapp.common.compose.AppToolbar
+import com.example.traningcomposeapp.common.compose.CenterAlignedButton
+import com.example.traningcomposeapp.common.compose.CountdownTimer
 import com.example.traningcomposeapp.ui.theme.TextStyleBold16
 import com.example.traningcomposeapp.ui.theme.TextStyleBold24
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal12
 import com.example.traningcomposeapp.utils.RegexUtils
 
 @Composable
-fun OTPScreen(onBackPressed: () -> Unit, onContinueClick : () -> Unit) {
+fun OTPScreen(onBackPressed: () -> Unit, onContinueClick: () -> Unit) {
     Scaffold(
         topBar = {
             AppToolbar {

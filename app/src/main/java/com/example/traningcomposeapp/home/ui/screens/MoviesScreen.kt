@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.traningcomposeapp.R
-import com.example.traningcomposeapp.common.GlideImageCompose
+import com.example.traningcomposeapp.common.compose.GlideImageCompose
 import com.example.traningcomposeapp.onboarding.data.model.Pager
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 

@@ -2,7 +2,6 @@ package com.example.traningcomposeapp.onboarding.ui.screens
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,27 +30,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.traningcomposeapp.R
-import com.example.traningcomposeapp.common.CenterAlignedButton
-import com.example.traningcomposeapp.common.CenterAlignedOutlinedButton
-import com.example.traningcomposeapp.common.GlideImageCompose
-import com.example.traningcomposeapp.common.HorizontalPagerWithIndicator
-import com.example.traningcomposeapp.common.TermsAndPrivacyText
+import com.example.traningcomposeapp.common.compose.CenterAlignedButton
+import com.example.traningcomposeapp.common.compose.CenterAlignedOutlinedButton
+import com.example.traningcomposeapp.common.compose.GlideImageCompose
+import com.example.traningcomposeapp.common.compose.HorizontalPagerWithIndicator
+import com.example.traningcomposeapp.common.compose.TermsAndPrivacyText
 import com.example.traningcomposeapp.onboarding.data.model.PagerResponse
 import com.example.traningcomposeapp.ui.theme.TextStyleBlack26
 import com.example.traningcomposeapp.ui.theme.TextStyleBold16
-import com.example.traningcomposeapp.ui.theme.fontFamily
 import com.example.traningcomposeapp.utils.readJSONFromAssets
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -68,19 +60,19 @@ fun LauncherScreen(onSignClicked: (String) -> Unit) {
     )
 
     LaunchedEffect(key1 = pagerState.currentPage) {
-            delay(3000)
-            with(pagerState) {
-                val target =
-                    if (currentPage < pagerJsonResponse.pager.count() - 1) currentPage + 1 else 0
+        delay(3000)
+        with(pagerState) {
+            val target =
+                if (currentPage < pagerJsonResponse.pager.count() - 1) currentPage + 1 else 0
 
-                animateScrollToPage(
-                    page = target,
-                    animationSpec = tween(
-                        durationMillis = 0,
-                        easing = LinearOutSlowInEasing
-                    )
+            animateScrollToPage(
+                page = target,
+                animationSpec = tween(
+                    durationMillis = 0,
+                    easing = LinearOutSlowInEasing
                 )
-            }
+            )
+        }
     }
 
     Scaffold(

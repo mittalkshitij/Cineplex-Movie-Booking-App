@@ -28,15 +28,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.traningcomposeapp.R
-import com.example.traningcomposeapp.common.GlideImageCompose
-import com.example.traningcomposeapp.common.HeaderText
-import com.example.traningcomposeapp.common.MemberCard
+import com.example.traningcomposeapp.common.compose.GlideImageCompose
+import com.example.traningcomposeapp.common.compose.HeaderText
+import com.example.traningcomposeapp.common.compose.MemberCard
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal12
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 
 @Composable
-fun MovieDetailsScreen(onBackPressed : () -> Unit) {
+fun MovieDetailsScreen(onBackPressed: () -> Unit) {
     BackHandler {
         onBackPressed()
     }

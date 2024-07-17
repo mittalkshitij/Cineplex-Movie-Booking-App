@@ -27,9 +27,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.traningcomposeapp.R
-import com.example.traningcomposeapp.common.AppToolbar
-import com.example.traningcomposeapp.common.CenterAlignedButton
-import com.example.traningcomposeapp.common.TextFieldCompose
+import com.example.traningcomposeapp.common.compose.AppToolbar
+import com.example.traningcomposeapp.common.compose.CenterAlignedButton
+import com.example.traningcomposeapp.common.compose.TextFieldCompose
 import com.example.traningcomposeapp.ui.theme.TextStyleBold24
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 import com.example.traningcomposeapp.ui.theme.fontFamily

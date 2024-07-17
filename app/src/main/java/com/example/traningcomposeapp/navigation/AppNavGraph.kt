@@ -12,28 +12,36 @@ import androidx.navigation.compose.navigation
 import com.example.traningcomposeapp.home.ui.screens.HomeScreen
 import com.example.traningcomposeapp.home.ui.screens.MovieDetailsScreen
 import com.example.traningcomposeapp.home.ui.screens.MoviesScreen
+import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 
 @Composable
-fun AppNavGraph(navController: NavHostController, innerPadding: PaddingValues) {
+fun AppNavGraph(
+    navController: NavHostController,
+    innerPadding: PaddingValues,
+    homeViewModel: HomeViewModel
+) {
     NavHost(
         navController,
         startDestination = BottomNavItem.Home_BottomNav.route,
         androidx.compose.ui.Modifier.padding(innerPadding)
     ) {
-        addHomeRoute(navController)
+        addHomeRoute(navController, homeViewModel)
         addTicketRoute(navController)
         addMovieRoute(navController)
         addProfileRoute(navController)
     }
 }
 
-private fun NavGraphBuilder.addHomeRoute(navController: NavHostController) {
+private fun NavGraphBuilder.addHomeRoute(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel
+) {
     navigation(
         route = BottomNavItem.Home_BottomNav.route,
         startDestination = HomeScreen.Home.route
     ) {
         composable(route = HomeScreen.Home.route) {
-            HomeScreen {
+            HomeScreen(homeViewModel) {
                 navController.navigate(HomeScreen.MovieDetails.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
