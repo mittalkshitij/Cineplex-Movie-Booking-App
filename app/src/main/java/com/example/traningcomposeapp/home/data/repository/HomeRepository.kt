@@ -1,5 +1,6 @@
 package com.example.traningcomposeapp.home.data.repository
 
+import com.example.traningcomposeapp.home.data.model.CreditsResponseDTO
 import com.example.traningcomposeapp.home.data.model.PopularMoviesResponse
 import com.example.traningcomposeapp.home.data.model.ScreeningAndUpcomingDTO
 import com.example.traningcomposeapp.home.data.network.HomeAPI
@@ -9,6 +10,7 @@ interface HomeRepository {
     suspend fun callApi(): PopularMoviesResponse
     suspend fun callNowPlayingApi(): ScreeningAndUpcomingDTO
     suspend fun callUpcomingApi(): ScreeningAndUpcomingDTO
+    suspend fun callCreditsApi(movieID: Int): CreditsResponseDTO
 }
 
 class HomeRepositoryImpl @Inject constructor(
@@ -25,5 +27,9 @@ class HomeRepositoryImpl @Inject constructor(
 
     override suspend fun callUpcomingApi(): ScreeningAndUpcomingDTO {
         return homeAPI.callUpcomingApi()
+    }
+
+    override suspend fun callCreditsApi(movieID: Int): CreditsResponseDTO {
+        return homeAPI.callCreditsApi(movieID)
     }
 }

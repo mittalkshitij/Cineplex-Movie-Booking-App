@@ -25,13 +25,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.common.compose.PosterGlideImage
+import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingResponse
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 
 @Composable
-fun ComingSoonWidget(upcomingResponse: ScreeningAndUpcomingResponse, onClick: () -> Unit) {
+fun ComingSoonWidget(
+    upcomingResponse: ScreeningAndUpcomingResponse,
+    onClick: (MovieResults) -> Unit
+) {
 
     Column(
         Modifier
@@ -51,7 +55,7 @@ fun ComingSoonWidget(upcomingResponse: ScreeningAndUpcomingResponse, onClick: ()
                     modifier = Modifier
                         .width(170.dp)
                         .clickable {
-                            onClick.invoke()
+                            onClick(movie)
                         }
                 ) {
                     Card {

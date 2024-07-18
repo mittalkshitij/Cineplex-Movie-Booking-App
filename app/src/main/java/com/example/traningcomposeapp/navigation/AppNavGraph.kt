@@ -42,6 +42,7 @@ private fun NavGraphBuilder.addHomeRoute(
     ) {
         composable(route = HomeScreen.Home.route) {
             HomeScreen(homeViewModel) {
+                homeViewModel.setMovieDetails(it)
                 navController.navigate(HomeScreen.MovieDetails.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
@@ -52,10 +53,10 @@ private fun NavGraphBuilder.addHomeRoute(
             }
         }
         composable(route = HomeScreen.MovieDetails.route) {
-            MovieDetailsScreen {
+            MovieDetailsScreen(homeViewModel) {
                 navController.navigate(HomeScreen.Home.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
+                        saveState = false
                     }
                     launchSingleTop = true
                     restoreState = true
