@@ -3,7 +3,10 @@ package com.example.traningcomposeapp.home.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.traningcomposeapp.home.data.repository.HomeRepository
+import com.example.traningcomposeapp.home.domain.model.CreditsResponse
+import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingResponse
+import com.example.traningcomposeapp.home.domain.usecase.MovieCreditsUseCase
 import com.example.traningcomposeapp.home.domain.usecase.NowPlayingMovieUseCase
 import com.example.traningcomposeapp.home.domain.usecase.UpcomingMovieUseCase
 import com.example.traningcomposeapp.utils.Result
@@ -17,7 +20,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
     private val nowPlayingMovieUseCase: NowPlayingMovieUseCase,
-    private val upcomingMovieUseCase: UpcomingMovieUseCase
+    private val upcomingMovieUseCase: UpcomingMovieUseCase,
+    private val movieCreditsUseCase: MovieCreditsUseCase
 ) : ViewModel() {
 
     private val _nowPlayingResponse =
@@ -27,6 +31,12 @@ class HomeViewModel @Inject constructor(
     private val _upcomingResponse =
         MutableStateFlow<Result<ScreeningAndUpcomingResponse>>(Result.Loading)
     val upcomingResponse = _upcomingResponse.asStateFlow()
+
+    private val _movieResult = MutableStateFlow<MovieResults?>(value = null)
+    val movieResults = _movieResult.asStateFlow()
+
+    private val _creditsResponse = MutableStateFlow<Result<CreditsResponse>>(Result.Loading)
+    val creditsResponse = _creditsResponse.asStateFlow()
 
     suspend fun callApi() {
         homeRepository.callApi()
@@ -42,5 +52,15 @@ class HomeViewModel @Inject constructor(
         upcomingMovieUseCase(Unit).stateIn(viewModelScope).collect {
             _upcomingResponse.value = it
         }
+    }
+
+    suspend fun callCreditsApi(movieId: Int) {
+        movieCreditsUseCase(movieId).stateIn(viewModelScope).collect {
+            _creditsResponse.value = it
+        }
+    }
+
+    fun setMovieDetails(movieDetails: MovieResults) {
+        _movieResult.value = movieDetails
     }
 }

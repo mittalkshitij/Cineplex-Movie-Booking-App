@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.common.compose.PosterGlideImage
+import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingResponse
 import com.example.traningcomposeapp.ui.theme.TextStyleBol12
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
@@ -40,7 +41,10 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun NowPlayingWidget(nowPlayingResponse: ScreeningAndUpcomingResponse, onClick: () -> Unit) {
+fun NowPlayingWidget(
+    nowPlayingResponse: ScreeningAndUpcomingResponse,
+    onClick: (MovieResults) -> Unit
+) {
 
     val pagerState = rememberPagerState(
         initialPage = 1,
@@ -69,7 +73,7 @@ fun NowPlayingWidget(nowPlayingResponse: ScreeningAndUpcomingResponse, onClick: 
             Column(
                 modifier = Modifier
                     .clickable {
-                        onClick()
+                        onClick(movie)
                     }
                     .fillMaxWidth()
                     .graphicsLayer {
@@ -125,7 +129,6 @@ fun NowPlayingWidget(nowPlayingResponse: ScreeningAndUpcomingResponse, onClick: 
                     )
                 }
             }
-
         }
     }
 }

@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.traningcomposeapp.R
+import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingResponse
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 import com.example.traningcomposeapp.home.ui.widgets.ComingSoonWidget
@@ -46,7 +47,7 @@ import com.example.traningcomposeapp.utils.Result
 import com.example.traningcomposeapp.utils.UserDataManager
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel, onClick: () -> Unit) {
+fun HomeScreen(homeViewModel: HomeViewModel, onClick: (MovieResults) -> Unit) {
 
     var nowPlayingResponse by remember { mutableStateOf(ScreeningAndUpcomingResponse()) }
     var upcomingResponse by remember { mutableStateOf(ScreeningAndUpcomingResponse()) }
