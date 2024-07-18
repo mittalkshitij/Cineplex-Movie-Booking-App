@@ -14,3 +14,8 @@ sealed class HomeScreen(val route: String) {
     data object Home : HomeScreen("Home")
     data object MovieDetails : HomeScreen("Movie Details")
 }
+
+sealed class MovieScreen(val route: String) {
+    data object Movie : MovieScreen("Movie")
+    data object MovieDetails : MovieScreen("Movie Details")
+}

@@ -27,7 +27,7 @@ fun AppNavGraph(
     ) {
         addHomeRoute(navController, homeViewModel)
         addTicketRoute(navController)
-        addMovieRoute(navController)
+        addMovieRoute(navController, homeViewModel)
         addProfileRoute(navController)
     }
 }
@@ -70,9 +70,37 @@ private fun NavGraphBuilder.addTicketRoute(navController: NavHostController) {
     composable(BottomNavItem.Ticket_BottomNav.route) { }
 }
 
-private fun NavGraphBuilder.addMovieRoute(navController: NavHostController) {
-    composable(BottomNavItem.Movie_BottomNav.route) {
-        MoviesScreen()
+private fun NavGraphBuilder.addMovieRoute(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel
+) {
+    navigation(
+        route = BottomNavItem.Movie_BottomNav.route,
+        startDestination = MovieScreen.Movie.route
+    ) {
+        composable(route = MovieScreen.Movie.route) {
+            MoviesScreen(homeViewModel) {
+                homeViewModel.setMovieDetails(it)
+                navController.navigate(MovieScreen.MovieDetails.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+        }
+        composable(route = MovieScreen.MovieDetails.route) {
+            MovieDetailsScreen(homeViewModel) {
+                navController.navigate(MovieScreen.Movie.route) {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = false
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
+        }
     }
 }
 
