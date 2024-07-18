@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.traningcomposeapp.R
+import com.example.traningcomposeapp.home.ui.activity.HomeActivity
 import com.example.traningcomposeapp.launcher.ui.viewmodel.MainViewModel
 import com.example.traningcomposeapp.onboarding.ui.activity.OnBoardingActivity
 import com.example.traningcomposeapp.utils.ImageConfig
@@ -35,12 +36,12 @@ class MainActivity : AppCompatActivity() {
                 when (it) {
                     is Result.Success -> {
                         ImageConfig.imageConfig = it.data
-                        val intent = Intent(this@MainActivity, OnBoardingActivity::class.java)
+                        val intent = Intent(this@MainActivity, HomeActivity::class.java)
                         startActivity(intent)
                     }
 
                     is Result.Error -> {
-                        val intent = Intent(this@MainActivity, OnBoardingActivity::class.java)
+                        val intent = Intent(this@MainActivity, HomeActivity::class.java)
                         startActivity(intent)
                     }
 
