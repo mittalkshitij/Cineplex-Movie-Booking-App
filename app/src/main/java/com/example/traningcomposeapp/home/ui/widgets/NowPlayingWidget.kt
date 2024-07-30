@@ -32,7 +32,7 @@ import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.common.compose.PosterGlideImage
 import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingResponse
-import com.example.traningcomposeapp.ui.theme.TextStyleBol12
+import com.example.traningcomposeapp.ui.theme.TextStyleBold12
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal12
@@ -116,7 +116,7 @@ fun NowPlayingWidget(
                     )
                     Text(
                         text = String.format("%.1f", movie.voteAverage / 2),
-                        style = TextStyleBol12,
+                        style = TextStyleBold12,
                         color = colorResource(id = R.color.white),
                         textAlign = TextAlign.Center,
                     )
