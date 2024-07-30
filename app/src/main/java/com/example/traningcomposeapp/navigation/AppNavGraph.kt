@@ -12,6 +12,9 @@ import androidx.navigation.compose.navigation
 import com.example.traningcomposeapp.home.ui.screens.HomeScreen
 import com.example.traningcomposeapp.home.ui.screens.MovieDetailsScreen
 import com.example.traningcomposeapp.home.ui.screens.MoviesScreen
+import com.example.traningcomposeapp.home.ui.screens.MyTicketScreen
+import com.example.traningcomposeapp.home.ui.screens.PaymentScreen
+import com.example.traningcomposeapp.home.ui.screens.SeatSelectionScreen
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 
 @Composable
@@ -52,8 +55,9 @@ private fun NavGraphBuilder.addHomeRoute(
                 }
             }
         }
+
         composable(route = HomeScreen.MovieDetails.route) {
-            MovieDetailsScreen(homeViewModel) {
+            MovieDetailsScreen(homeViewModel, onBackPressed = {
                 navController.navigate(HomeScreen.Home.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = false
@@ -61,7 +65,25 @@ private fun NavGraphBuilder.addHomeRoute(
                     launchSingleTop = true
                     restoreState = true
                 }
+            }) {
+                navController.navigate(HomeScreen.SeatSelection.route) {}
             }
+        }
+
+        composable(route = HomeScreen.SeatSelection.route) {
+            SeatSelectionScreen {
+                navController.navigate(HomeScreen.PaymentScreen.route) {}
+            }
+        }
+
+        composable(route = HomeScreen.PaymentScreen.route) {
+            PaymentScreen {
+                navController.navigate(HomeScreen.MyTicket.route) {}
+            }
+        }
+
+        composable(route = HomeScreen.MyTicket.route) {
+            MyTicketScreen()
         }
     }
 }
@@ -91,7 +113,7 @@ private fun NavGraphBuilder.addMovieRoute(
             }
         }
         composable(route = MovieScreen.MovieDetails.route) {
-            MovieDetailsScreen(homeViewModel) {
+            MovieDetailsScreen(homeViewModel, onBackPressed = {
                 navController.navigate(MovieScreen.Movie.route) {
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = false
@@ -99,7 +121,25 @@ private fun NavGraphBuilder.addMovieRoute(
                     launchSingleTop = true
                     restoreState = true
                 }
+            }) {
+                navController.navigate(MovieScreen.SeatSelection.route) {}
             }
+        }
+
+        composable(route = MovieScreen.SeatSelection.route) {
+            SeatSelectionScreen {
+                navController.navigate(MovieScreen.PaymentScreen.route) {}
+            }
+        }
+
+        composable(route = MovieScreen.PaymentScreen.route) {
+            PaymentScreen {
+                navController.navigate(MovieScreen.MyTicket.route) {}
+            }
+        }
+
+        composable(route = MovieScreen.MyTicket.route) {
+            MyTicketScreen()
         }
     }
 }

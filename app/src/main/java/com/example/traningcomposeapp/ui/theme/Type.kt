@@ -97,7 +97,7 @@ val TextStyleBold10 by lazy {
     TextStyle(fontFamily = fontFamily, fontWeight = FontWeight.Bold, fontSize = 10.sp)
 }
 
-val TextStyleBol12 by lazy {
+val TextStyleBold12 by lazy {
     TextStyle(fontFamily = fontFamily, fontWeight = FontWeight.Bold, fontSize = 12.sp)
 }
 

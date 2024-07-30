@@ -1,21 +1,24 @@
 package com.example.traningcomposeapp.common.compose
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -28,8 +31,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -63,7 +70,7 @@ fun AppToolbar(
         navigationIcon = {
             IconButton(onClick = { onBackPressed() }) {
                 Image(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "",
                     colorFilter = ColorFilter.tint(color = colorResource(id = R.color.white)),
                 )
@@ -201,10 +208,32 @@ fun CountdownTimer(time: Int, textStyle: TextStyle, modifier: Modifier) {
 }
 
 @Composable
-fun HeaderText(text: String) {
+fun HeaderText(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = TextStyleBold18,
-        color = colorResource(id = R.color.widget_background_4)
+        color = colorResource(id = R.color.widget_background_4),
+        modifier = modifier
     )
+}
+
+@Composable
+fun DashedLine(
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.primary,
+    strokeWidth: Float = 4f,
+    dashWidth: Float = 10f,
+    dashGap: Float = 10f
+) {
+    Canvas(modifier = modifier.fillMaxSize()) {
+        val pathEffect = PathEffect.dashPathEffect(floatArrayOf(dashWidth, dashGap), 0f)
+        drawLine(
+            color = color,
+            start = Offset(0f, size.height / 2),
+            end = Offset(size.width, size.height / 2),
+            strokeWidth = strokeWidth,
+            pathEffect = pathEffect,
+            cap = StrokeCap.Butt
+        )
+    }
 }

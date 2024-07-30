@@ -13,9 +13,16 @@ sealed class BottomNavItem(val route: String, @DrawableRes val icon: Int, val la
 sealed class HomeScreen(val route: String) {
     data object Home : HomeScreen("Home")
     data object MovieDetails : HomeScreen("Movie Details")
+    data object SeatSelection : HomeScreen("Seat Selection")
+    data object PaymentScreen : HomeScreen("Payment")
+
+    data object MyTicket : HomeScreen("My Ticket")
 }
 
 sealed class MovieScreen(val route: String) {
     data object Movie : MovieScreen("Movie")
     data object MovieDetails : MovieScreen("Movie Details")
+    data object SeatSelection : HomeScreen("Seat Selection")
+    data object PaymentScreen : HomeScreen("Payment")
+    data object MyTicket : HomeScreen("My Ticket")
 }
