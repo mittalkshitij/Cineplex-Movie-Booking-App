@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,21 +39,38 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.common.compose.AppToolbar
 import com.example.traningcomposeapp.common.compose.CenterAlignedButton
 import com.example.traningcomposeapp.common.compose.HeaderText
+import com.example.traningcomposeapp.common.compose.PosterGlideImage
+import com.example.traningcomposeapp.home.data.model.MovieBookingDetails
 import com.example.traningcomposeapp.home.data.model.PaymentMethodDetails
+import com.example.traningcomposeapp.home.domain.model.MovieResults
+import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold16
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleBold24
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
+import com.example.traningcomposeapp.utils.Constants.EMPTY
 
 @Composable
-fun PaymentScreen(onContinueClicked: () -> Unit) {
+fun PaymentScreen(homeViewModel: HomeViewModel, onContinueClicked: () -> Unit) {
+
+    var movieDetails by remember { mutableStateOf<MovieResults?>(null) }
+    var movieBookingDetails by remember { mutableStateOf<MovieBookingDetails?>(null) }
+
+    homeViewModel.movieBookingDetails.collectAsStateWithLifecycle().value?.let {
+        movieBookingDetails = it
+    }
+
+    homeViewModel.movieResults.collectAsStateWithLifecycle().value?.let {
+        movieDetails = it
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,8 +80,8 @@ fun PaymentScreen(onContinueClicked: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         AppToolbar(title = "Payment") {}
-        MovieDetailsSection()
-        BookingSection()
+        MovieDetailsSection(movieDetails, movieBookingDetails)
+        BookingSection(movieBookingDetails)
         PaymentMethodSection()
         Spacer(modifier = Modifier.weight(1f))
         CenterAlignedButton(
@@ -77,7 +95,7 @@ fun PaymentScreen(onContinueClicked: () -> Unit) {
 }
 
 @Composable
-fun MovieDetailsSection() {
+fun MovieDetailsSection(movieDetails: MovieResults?, movieBookingDetails: MovieBookingDetails?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,14 +107,13 @@ fun MovieDetailsSection() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.inoxcinema),
-            contentDescription = null,
+        PosterGlideImage(
+            model = movieDetails?.posterPath ?: EMPTY,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxHeight()
                 .width(100.dp)
-                .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)),
-            contentScale = ContentScale.FillBounds
+                .clip(RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
         )
 
         Column(
@@ -104,7 +121,7 @@ fun MovieDetailsSection() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Movie Title",
+                text = movieDetails?.title ?: EMPTY,
                 style = TextStyleBold18,
                 color = colorResource(id = R.color.widget_background_1)
             )
@@ -121,7 +138,11 @@ fun MovieDetailsSection() {
                     modifier = Modifier
                         .size(14.dp)
                 )
-                Text(text = "Cinema Name", style = TextStyleNormal14, color = Color.White)
+                Text(
+                    text = movieBookingDetails?.cinemaDetails?.name ?: EMPTY,
+                    style = TextStyleNormal14,
+                    color = Color.White
+                )
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -135,14 +156,18 @@ fun MovieDetailsSection() {
                     ),
                     modifier = Modifier.size(14.dp)
                 )
-                Text(text = "10.12.2022 • 14:15", style = TextStyleNormal14, color = Color.White)
+                Text(
+                    text = "${movieBookingDetails?.date} • ${movieBookingDetails?.time}",
+                    style = TextStyleNormal14,
+                    color = Color.White
+                )
             }
         }
     }
 }
 
 @Composable
-fun BookingSection() {
+fun BookingSection(movieBookingDetails: MovieBookingDetails?) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
@@ -163,7 +188,7 @@ fun BookingSection() {
                 color = colorResource(id = R.color.white)
             )
             Text(
-                text = "H7, H8",
+                text = movieBookingDetails?.seatList.toString(),
                 style = TextStyleBold14,
                 color = colorResource(id = R.color.white)
             )
@@ -180,7 +205,7 @@ fun BookingSection() {
                 color = colorResource(id = R.color.white)
             )
             Text(
-                text = "540.000 INR",
+                text = movieBookingDetails?.totalAmount.toString(),
                 style = TextStyleBold24,
                 color = colorResource(id = R.color.widget_background_1)
             )
@@ -196,17 +221,17 @@ fun PaymentMethodSection() {
             PaymentMethodDetails(
                 id = 0,
                 name = "UPI",
-                logo = R.drawable.pvrcinema,
+                logo = R.drawable.upi_image,
             ),
             PaymentMethodDetails(
                 id = 1,
                 name = "GPAY",
-                logo = R.drawable.inoxcinema,
+                logo = R.drawable.gpay_image,
             ),
             PaymentMethodDetails(
                 id = 2,
                 name = "PAYTM",
-                logo = R.drawable.uscinema,
+                logo = R.drawable.paytm_image,
             )
         )
     }

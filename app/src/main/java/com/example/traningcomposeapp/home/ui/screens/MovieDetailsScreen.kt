@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +32,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -66,7 +66,11 @@ import com.example.traningcomposeapp.utils.Constants.EMPTY
 import com.example.traningcomposeapp.utils.Result
 
 @Composable
-fun MovieDetailsScreen(homeViewModel: HomeViewModel, onBackPressed: () -> Unit, onContinuePressed : () -> Unit) {
+fun MovieDetailsScreen(
+    homeViewModel: HomeViewModel,
+    onBackPressed: () -> Unit,
+    onContinuePressed: () -> Unit
+) {
 
     var movieDetails by remember { mutableStateOf<MovieResults?>(null) }
     var creditsResponse by remember { mutableStateOf<CreditsResponse?>(null) }
@@ -94,6 +98,33 @@ fun MovieDetailsScreen(homeViewModel: HomeViewModel, onBackPressed: () -> Unit, 
         onBackPressed()
     }
 
+    val cinemaList = remember {
+        listOf(
+            CinemaDetails(
+                id = 0,
+                name = "PVR Mahagun Mall",
+                distance = "2.3 km",
+                address = "Vaishali, Ghaziabad",
+                logo = R.drawable.pvrcinema
+            ),
+            CinemaDetails(
+                id = 1,
+                name = "INOX Shipra Mall",
+                distance = "3.4 km",
+                address = "Indirapuram, Ghaziabad",
+                logo = R.drawable.inoxcinema,
+            ),
+            CinemaDetails(
+                id = 2,
+                name = "US Cinemas Eros Mall",
+                distance = "3.7 km",
+                address = "Indirapuram, Ghaziabad",
+                logo = R.drawable.uscinema,
+            )
+        )
+    }
+    val selectedCinema = remember { mutableIntStateOf(cinemaList[0].id) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -102,94 +133,103 @@ fun MovieDetailsScreen(homeViewModel: HomeViewModel, onBackPressed: () -> Unit, 
             .padding(bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy((-50).dp)
-        ) {
-            PosterGlideImage(
-                model = movieDetails?.backdropPath ?: EMPTY,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.height(180.dp)
-            )
-            Card(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.widget_background_7))
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = movieDetails?.title ?: EMPTY,
-                        style = TextStyleBold18,
-                        color = colorResource(id = R.color.widget_background_4)
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = "Duration",
-                            style = TextStyleNormal14,
-                            color = colorResource(id = R.color.widget_background_8)
-                        )
-                        Text(
-                            text = "  •  ",
-                            color = colorResource(id = R.color.widget_background_8)
-                        )
-                        Text(
-                            text = movieDetails?.releaseDate ?: EMPTY,
-                            style = TextStyleNormal14,
-                            color = colorResource(id = R.color.widget_background_8)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    ReviewSection(movieDetails)
-                }
-            }
-        }
-        Column(
-            Modifier.padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Row {
-                Text(
-                    text = "Movie Genre:", style = TextStyleNormal12,
-                    color = colorResource(id = R.color.widget_background_9)
-                )
-                Text(
-                    text = "Action, adventure, sci-fi", style = TextStyleNormal12,
-                    color = colorResource(id = R.color.widget_background_4)
-                )
-            }
-            Row {
-                Text(
-                    text = "Censorship:", style = TextStyleNormal12,
-                    color = colorResource(id = R.color.widget_background_9)
-                )
-                Text(
-                    text = "13+", style = TextStyleNormal12,
-                    color = colorResource(id = R.color.widget_background_4)
-                )
-            }
-            Row {
-                Text(
-                    text = "Language:", style = TextStyleNormal12,
-                    color = colorResource(id = R.color.widget_background_9)
-                )
-                Text(
-                    text = "English", style = TextStyleNormal12,
-                    color = colorResource(id = R.color.widget_background_4)
-                )
-            }
-        }
+        MovieInfoSection(movieDetails)
         StorylineSection(movieDetails)
         DirectorSection(creditsResponse)
         CastSection(creditsResponse)
-        CinemaSection()
+        CinemaSection(cinemaList, selectedCinema)
         CenterAlignedButton(
             text = "Continue",
             Modifier.fillMaxWidth(),
             textStyle = TextStyleBold16
         ) {
+            val selectedCinemaDetail = cinemaList.find {
+                it.id == selectedCinema.intValue
+            }
+            homeViewModel.setSelectedCinemaDetails(selectedCinemaDetail)
             onContinuePressed()
+        }
+    }
+}
+
+@Composable
+fun MovieInfoSection(movieDetails: MovieResults?) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy((-50).dp)
+    ) {
+        PosterGlideImage(
+            model = movieDetails?.backdropPath ?: EMPTY,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.height(180.dp)
+        )
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.widget_background_7))
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = movieDetails?.title ?: EMPTY,
+                    style = TextStyleBold18,
+                    color = colorResource(id = R.color.widget_background_4)
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "Duration",
+                        style = TextStyleNormal14,
+                        color = colorResource(id = R.color.widget_background_8)
+                    )
+                    Text(
+                        text = "  •  ",
+                        color = colorResource(id = R.color.widget_background_8)
+                    )
+                    Text(
+                        text = movieDetails?.releaseDate ?: EMPTY,
+                        style = TextStyleNormal14,
+                        color = colorResource(id = R.color.widget_background_8)
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                ReviewSection(movieDetails)
+            }
+        }
+    }
+    Column(
+        Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Row {
+            Text(
+                text = "Movie Genre:", style = TextStyleNormal12,
+                color = colorResource(id = R.color.widget_background_9)
+            )
+            Text(
+                text = "Action, adventure, sci-fi", style = TextStyleNormal12,
+                color = colorResource(id = R.color.widget_background_4)
+            )
+        }
+        Row {
+            Text(
+                text = "Censorship:", style = TextStyleNormal12,
+                color = colorResource(id = R.color.widget_background_9)
+            )
+            Text(
+                text = "13+", style = TextStyleNormal12,
+                color = colorResource(id = R.color.widget_background_4)
+            )
+        }
+        Row {
+            Text(
+                text = "Language:", style = TextStyleNormal12,
+                color = colorResource(id = R.color.widget_background_9)
+            )
+            Text(
+                text = "English", style = TextStyleNormal12,
+                color = colorResource(id = R.color.widget_background_4)
+            )
         }
     }
 }
@@ -296,33 +336,7 @@ fun MemberCard(name: String, profilePath: String) {
 }
 
 @Composable
-fun CinemaSection() {
-    val cinemaList = remember {
-        listOf(
-            CinemaDetails(
-                id = 0,
-                name = "PVR Mahagun Mall",
-                distance = "2.3 km",
-                address = "Vaishali, Ghaziabad",
-                logo = R.drawable.pvrcinema,
-            ),
-            CinemaDetails(
-                id = 1,
-                name = "INOX Shipra Mall",
-                distance = "3.4 km",
-                address = "Indirapuram, Ghaziabad",
-                logo = R.drawable.inoxcinema,
-            ),
-            CinemaDetails(
-                id = 2,
-                name = "US Cinemas Eros Mall",
-                distance = "3.7 km",
-                address = "Indirapuram, Ghaziabad",
-                logo = R.drawable.uscinema,
-            )
-        )
-    }
-    var selectedCinema by remember { mutableIntStateOf(cinemaList[0].id) }
+fun CinemaSection(cinemaList: List<CinemaDetails>, selectedCinema: MutableIntState) {
 
     Column(
         Modifier.padding(horizontal = 16.dp),
@@ -331,8 +345,8 @@ fun CinemaSection() {
         HeaderText("Cinema")
         repeat(cinemaList.size) {
             val cinemaDetail = cinemaList[it]
-            Cinema(cinemaDetail, selectedCinema) { cinemaDetails ->
-                selectedCinema = cinemaDetails.id
+            Cinema(cinemaDetail, selectedCinema.intValue) { cinemaDetails ->
+                selectedCinema.intValue = cinemaDetails.id
             }
         }
     }

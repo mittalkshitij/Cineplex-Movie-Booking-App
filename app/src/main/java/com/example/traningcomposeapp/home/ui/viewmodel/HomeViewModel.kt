@@ -2,6 +2,8 @@ package com.example.traningcomposeapp.home.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.traningcomposeapp.home.data.model.CinemaDetails
+import com.example.traningcomposeapp.home.data.model.MovieBookingDetails
 import com.example.traningcomposeapp.home.data.repository.HomeRepository
 import com.example.traningcomposeapp.home.domain.model.CreditsResponse
 import com.example.traningcomposeapp.home.domain.model.MovieResults
@@ -38,6 +40,12 @@ class HomeViewModel @Inject constructor(
     private val _creditsResponse = MutableStateFlow<Result<CreditsResponse>>(Result.Loading)
     val creditsResponse = _creditsResponse.asStateFlow()
 
+    private val _selectedCinema = MutableStateFlow<CinemaDetails?>(value = null)
+    val selectedCinema = _selectedCinema.asStateFlow()
+
+    private val _movieBookingDetails = MutableStateFlow<MovieBookingDetails?>(value = null)
+    val movieBookingDetails = _movieBookingDetails.asStateFlow()
+
     suspend fun callApi() {
         homeRepository.callApi()
     }
@@ -62,5 +70,13 @@ class HomeViewModel @Inject constructor(
 
     fun setMovieDetails(movieDetails: MovieResults) {
         _movieResult.value = movieDetails
+    }
+
+    fun setSelectedCinemaDetails(selectedCinemaDetail: CinemaDetails?) {
+        _selectedCinema.value = selectedCinemaDetail
+    }
+
+    fun setMovieBookingDetails(movieBookingDetails: MovieBookingDetails) {
+        _movieBookingDetails.value = movieBookingDetails
     }
 }

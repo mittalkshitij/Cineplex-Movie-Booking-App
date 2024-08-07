@@ -23,29 +23,49 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.traningcomposeapp.R
 import com.example.traningcomposeapp.common.compose.AppToolbar
 import com.example.traningcomposeapp.common.compose.DashedLine
+import com.example.traningcomposeapp.common.compose.PosterGlideImage
+import com.example.traningcomposeapp.home.data.model.MovieBookingDetails
+import com.example.traningcomposeapp.home.domain.model.MovieResults
+import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold16
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
-import com.example.traningcomposeapp.ui.theme.TextStyleNormal18
-import com.example.traningcomposeapp.utils.pxToDp
+import com.example.traningcomposeapp.utils.Constants
+import com.example.traningcomposeapp.utils.Constants.EMPTY
 
 @Composable
-fun MyTicketScreen() {
+fun MyTicketScreen(homeViewModel: HomeViewModel? = null) {
+
+    var movieDetails by remember { mutableStateOf<MovieResults?>(null) }
+    var movieBookingDetails by remember { mutableStateOf<MovieBookingDetails?>(null) }
+
+    homeViewModel?.movieBookingDetails?.collectAsStateWithLifecycle()?.value?.let {
+        movieBookingDetails = it
+    }
+
+    homeViewModel?.movieResults?.collectAsStateWithLifecycle()?.value?.let {
+        movieDetails = it
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,44 +73,42 @@ fun MyTicketScreen() {
             .background(colorResource(id = R.color.black))
     ) {
         AppToolbar(title = "My Ticket") {}
-        TicketSection()
+        TicketSection(movieDetails, movieBookingDetails)
     }
 }
 
 @Composable
-fun TicketSection() {
+fun  TicketSection(movieDetails: MovieResults?, movieBookingDetails: MovieBookingDetails?) {
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 24.dp)
-            .fillMaxWidth()
-            .fillMaxHeight()
             .background(Color.White, shape = RoundedCornerShape(12.dp)),
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Section1()
-        Section2()
+        Section1(movieDetails , movieBookingDetails)
+        Section2(movieBookingDetails)
         Section3()
     }
 }
 
 @Composable
-fun Section1() {
+fun Section1(movieDetails: MovieResults?, movieBookingDetails: MovieBookingDetails?) {
     Column {
         Row(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .padding(16.dp)
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.uscinema),
-                contentDescription = null,
+            PosterGlideImage(
+                model = movieDetails?.posterPath ?: EMPTY,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .height(180.dp)
                     .width(130.dp)
-                    .clip(RoundedCornerShape(12.dp)),
-                contentScale = ContentScale.FillBounds
+                    .clip(RoundedCornerShape(12.dp))
             )
 
             Column(
@@ -98,13 +116,12 @@ fun Section1() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Movie Title",
+                    text = movieDetails?.title ?: EMPTY,
                     style = TextStyleBold18,
                     color = colorResource(id = R.color.black)
                 )
 
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Image(
@@ -122,7 +139,6 @@ fun Section1() {
                     )
                 }
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Image(
@@ -162,12 +178,12 @@ fun Section1() {
                 )
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(
-                        text = "14h15",
+                        text = movieBookingDetails?.time ?: EMPTY,
                         style = TextStyleBold14,
                         color = Color.Black
                     )
                     Text(
-                        text = "10.12.2024",
+                        text = movieBookingDetails?.date ?: EMPTY,
                         style = TextStyleBold14,
                         color = Color.Black
                     )
@@ -193,7 +209,7 @@ fun Section1() {
                         color = Color.Black
                     )
                     Text(
-                        text = "Seat H7,H8",
+                        text = "Seat ${movieBookingDetails?.seatList}",
                         style = TextStyleBold14,
                         color = Color.Black
                     )
@@ -211,7 +227,7 @@ fun Section1() {
 }
 
 @Composable
-fun Section2() {
+fun Section2(movieBookingDetails: MovieBookingDetails?) {
     Column(
         modifier = Modifier.padding(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -230,7 +246,7 @@ fun Section2() {
                 modifier = Modifier.size(24.dp)
             )
             Text(
-                text = "210.00 INR",
+                text = movieBookingDetails?.totalAmount.toString(),
                 style = TextStyleBold18,
                 color = Color.Black
             )
@@ -251,12 +267,12 @@ fun Section2() {
             )
             Column {
                 Text(
-                    text = "Cinema Name",
+                    text = movieBookingDetails?.cinemaDetails?.name.toString(),
                     style = TextStyleBold18,
                     color = Color.Black
                 )
                 Text(
-                    text = "4th floor, Vincom Ocean Park, Da Ton, Gia Lam, Ha Noi",
+                    text = movieBookingDetails?.cinemaDetails?.address.toString(),
                     style = TextStyleNormal14,
                     color = Color.Black
                 )
