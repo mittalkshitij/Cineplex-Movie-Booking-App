@@ -17,6 +17,7 @@ import com.example.traningcomposeapp.home.ui.screens.MyTicketScreen
 import com.example.traningcomposeapp.home.ui.screens.PaymentScreen
 import com.example.traningcomposeapp.home.ui.screens.ProfileScreen
 import com.example.traningcomposeapp.home.ui.screens.SeatSelectionScreen
+import com.example.traningcomposeapp.home.ui.screens.TicketCollectionScreen
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 
 @Composable
@@ -31,7 +32,7 @@ fun AppNavGraph(
         modifier = Modifier.padding(innerPadding)
     ) {
         addHomeRoute(navController, homeViewModel)
-        addTicketRoute(navController)
+        addTicketRoute(homeViewModel, navController)
         addMovieRoute(navController, homeViewModel)
         addProfileRoute(navController)
     }
@@ -91,8 +92,13 @@ private fun NavGraphBuilder.addHomeRoute(
     }
 }
 
-private fun NavGraphBuilder.addTicketRoute(navController: NavHostController) {
-    composable(BottomNavItem.Ticket_BottomNav.route) { }
+private fun NavGraphBuilder.addTicketRoute(
+    homeViewModel: HomeViewModel,
+    navController: NavHostController
+) {
+    composable(BottomNavItem.Ticket_BottomNav.route) {
+        TicketCollectionScreen(homeViewModel)
+    }
 }
 
 private fun NavGraphBuilder.addMovieRoute(

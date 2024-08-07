@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.traningcomposeapp.home.data.model.CinemaDetails
 import com.example.traningcomposeapp.home.data.model.MovieBookingDetails
+import com.example.traningcomposeapp.home.data.model.TicketCollectionDetails
 import com.example.traningcomposeapp.home.data.repository.HomeRepository
 import com.example.traningcomposeapp.home.domain.model.CreditsResponse
 import com.example.traningcomposeapp.home.domain.model.MovieResults
@@ -46,6 +47,11 @@ class HomeViewModel @Inject constructor(
     private val _movieBookingDetails = MutableStateFlow<MovieBookingDetails?>(value = null)
     val movieBookingDetails = _movieBookingDetails.asStateFlow()
 
+    private val _ticketCollectionDetails =
+        MutableStateFlow<MutableList<TicketCollectionDetails>>(mutableListOf())
+    val ticketCollectionDetails = _ticketCollectionDetails.asStateFlow()
+
+
     suspend fun callApi() {
         homeRepository.callApi()
     }
@@ -78,5 +84,10 @@ class HomeViewModel @Inject constructor(
 
     fun setMovieBookingDetails(movieBookingDetails: MovieBookingDetails) {
         _movieBookingDetails.value = movieBookingDetails
+    }
+
+    fun setTicketCollectionDetails(ticketCollectionDetails: TicketCollectionDetails) {
+        _ticketCollectionDetails.value.add(ticketCollectionDetails)
+        println(_ticketCollectionDetails.value)
     }
 }

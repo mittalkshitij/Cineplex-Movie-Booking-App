@@ -55,7 +55,10 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppToolbar(
-    modifier: Modifier = Modifier, title: String = "", onBackPressed: () -> Unit
+    modifier: Modifier = Modifier,
+    title: String = "",
+    showNavigationIcon: Boolean = true,
+    onBackPressed: () -> Unit = {},
 ) {
 
     CenterAlignedTopAppBar(
@@ -68,12 +71,14 @@ fun AppToolbar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = { onBackPressed() }) {
-                Image(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "",
-                    colorFilter = ColorFilter.tint(color = colorResource(id = R.color.white)),
-                )
+            if (showNavigationIcon) {
+                IconButton(onClick = { onBackPressed() }) {
+                    Image(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "",
+                        colorFilter = ColorFilter.tint(color = colorResource(id = R.color.white)),
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
