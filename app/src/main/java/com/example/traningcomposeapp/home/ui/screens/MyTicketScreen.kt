@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,6 +22,7 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +35,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.traningcomposeapp.R
@@ -43,27 +42,36 @@ import com.example.traningcomposeapp.common.compose.AppToolbar
 import com.example.traningcomposeapp.common.compose.DashedLine
 import com.example.traningcomposeapp.common.compose.PosterGlideImage
 import com.example.traningcomposeapp.home.data.model.MovieBookingDetails
+import com.example.traningcomposeapp.home.data.model.TicketCollectionDetails
 import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold16
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
-import com.example.traningcomposeapp.utils.Constants
 import com.example.traningcomposeapp.utils.Constants.EMPTY
 
 @Composable
-fun MyTicketScreen(homeViewModel: HomeViewModel? = null) {
+fun MyTicketScreen(homeViewModel: HomeViewModel) {
 
     var movieDetails by remember { mutableStateOf<MovieResults?>(null) }
     var movieBookingDetails by remember { mutableStateOf<MovieBookingDetails?>(null) }
 
-    homeViewModel?.movieBookingDetails?.collectAsStateWithLifecycle()?.value?.let {
+    homeViewModel.movieBookingDetails.collectAsStateWithLifecycle().value?.let {
         movieBookingDetails = it
     }
 
-    homeViewModel?.movieResults?.collectAsStateWithLifecycle()?.value?.let {
+    homeViewModel.movieResults.collectAsStateWithLifecycle().value?.let {
         movieDetails = it
+    }
+
+    LaunchedEffect(Unit) {
+        homeViewModel.setTicketCollectionDetails(
+            TicketCollectionDetails(
+                movieBookingDetails = movieBookingDetails,
+                movieResults = movieDetails
+            )
+        )
     }
 
     Column(
@@ -78,7 +86,7 @@ fun MyTicketScreen(homeViewModel: HomeViewModel? = null) {
 }
 
 @Composable
-fun  TicketSection(movieDetails: MovieResults?, movieBookingDetails: MovieBookingDetails?) {
+fun TicketSection(movieDetails: MovieResults?, movieBookingDetails: MovieBookingDetails?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +94,7 @@ fun  TicketSection(movieDetails: MovieResults?, movieBookingDetails: MovieBookin
             .background(Color.White, shape = RoundedCornerShape(12.dp)),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Section1(movieDetails , movieBookingDetails)
+        Section1(movieDetails, movieBookingDetails)
         Section2(movieBookingDetails)
         Section3()
     }
@@ -333,8 +341,8 @@ fun Section3() {
     }
 }
 
-@Preview
-@Composable
-private fun DefaultPreview() {
-    MyTicketScreen()
-}
+//@Preview
+//@Composable
+//private fun DefaultPreview() {
+//    MyTicketScreen()
+//}
