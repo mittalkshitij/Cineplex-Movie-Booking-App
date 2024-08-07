@@ -3,6 +3,7 @@ package com.example.traningcomposeapp.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -26,7 +27,7 @@ fun AppNavGraph(
     NavHost(
         navController,
         startDestination = BottomNavItem.Home_BottomNav.route,
-        androidx.compose.ui.Modifier.padding(innerPadding)
+        modifier = Modifier.padding(innerPadding)
     ) {
         addHomeRoute(navController, homeViewModel)
         addTicketRoute(navController)
@@ -71,19 +72,20 @@ private fun NavGraphBuilder.addHomeRoute(
         }
 
         composable(route = HomeScreen.SeatSelection.route) {
-            SeatSelectionScreen {
+            SeatSelectionScreen(homeViewModel) {
+                homeViewModel.setMovieBookingDetails(it)
                 navController.navigate(HomeScreen.PaymentScreen.route) {}
             }
         }
 
         composable(route = HomeScreen.PaymentScreen.route) {
-            PaymentScreen {
+            PaymentScreen(homeViewModel) {
                 navController.navigate(HomeScreen.MyTicket.route) {}
             }
         }
 
         composable(route = HomeScreen.MyTicket.route) {
-            MyTicketScreen()
+            MyTicketScreen(homeViewModel)
         }
     }
 }
@@ -127,19 +129,20 @@ private fun NavGraphBuilder.addMovieRoute(
         }
 
         composable(route = MovieScreen.SeatSelection.route) {
-            SeatSelectionScreen {
+            SeatSelectionScreen(homeViewModel) {
+                homeViewModel.setMovieBookingDetails(it)
                 navController.navigate(MovieScreen.PaymentScreen.route) {}
             }
         }
 
         composable(route = MovieScreen.PaymentScreen.route) {
-            PaymentScreen {
+            PaymentScreen(homeViewModel) {
                 navController.navigate(MovieScreen.MyTicket.route) {}
             }
         }
 
         composable(route = MovieScreen.MyTicket.route) {
-            MyTicketScreen()
+            MyTicketScreen(homeViewModel)
         }
     }
 }
