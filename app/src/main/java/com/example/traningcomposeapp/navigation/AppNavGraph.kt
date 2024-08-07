@@ -15,6 +15,7 @@ import com.example.traningcomposeapp.home.ui.screens.MovieDetailsScreen
 import com.example.traningcomposeapp.home.ui.screens.MoviesScreen
 import com.example.traningcomposeapp.home.ui.screens.MyTicketScreen
 import com.example.traningcomposeapp.home.ui.screens.PaymentScreen
+import com.example.traningcomposeapp.home.ui.screens.ProfileScreen
 import com.example.traningcomposeapp.home.ui.screens.SeatSelectionScreen
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
 
@@ -148,5 +149,7 @@ private fun NavGraphBuilder.addMovieRoute(
 }
 
 private fun NavGraphBuilder.addProfileRoute(navController: NavHostController) {
-    composable(BottomNavItem.Profile_BottomNav.route) { }
+    composable(BottomNavItem.Profile_BottomNav.route) {
+        ProfileScreen()
+    }
 }
