@@ -45,6 +45,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.traningcomposeapp.R
+import com.example.traningcomposeapp.ui.theme.Black
 import com.example.traningcomposeapp.ui.theme.TextStyleBold
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleLight8
@@ -225,7 +226,7 @@ fun HeaderText(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun DashedLine(
     modifier: Modifier = Modifier,
-    color: Color = MaterialTheme.colorScheme.primary,
+    color: Color = Black,
     strokeWidth: Float = 4f,
     dashWidth: Float = 10f,
     dashGap: Float = 10f

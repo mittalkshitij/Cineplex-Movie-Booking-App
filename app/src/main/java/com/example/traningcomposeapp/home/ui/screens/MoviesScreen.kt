@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -37,6 +38,7 @@ import com.example.traningcomposeapp.common.compose.PosterGlideImage
 import com.example.traningcomposeapp.home.domain.model.MovieResults
 import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingResponse
 import com.example.traningcomposeapp.home.ui.viewmodel.HomeViewModel
+import com.example.traningcomposeapp.ui.theme.Black
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.utils.Result
 
@@ -80,7 +82,7 @@ fun MoviesScreen(homeViewModel: HomeViewModel, onMovieClick: (MovieResults) -> U
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surface
+        color = Black
     ) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
             FilterChipWidget(chipItems, selectedItemIndex) {
@@ -168,7 +170,7 @@ fun MoviesGridWidget(
                 Text(
                     text = movie.title,
                     style = TextStyleBold14,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = Color.Yellow,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }

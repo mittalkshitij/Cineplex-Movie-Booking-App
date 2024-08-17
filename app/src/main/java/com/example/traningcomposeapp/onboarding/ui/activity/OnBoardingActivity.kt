@@ -21,6 +21,7 @@ import com.example.traningcomposeapp.onboarding.ui.screens.LauncherScreen
 import com.example.traningcomposeapp.onboarding.ui.screens.OTPScreen
 import com.example.traningcomposeapp.onboarding.ui.screens.SignScreen
 import com.example.traningcomposeapp.onboarding.ui.screens.UserNameScreen
+import com.example.traningcomposeapp.ui.theme.Black
 import com.example.traningcomposeapp.ui.theme.CinePlexAppTheme
 import com.example.traningcomposeapp.utils.Constants.EMPTY
 import com.example.traningcomposeapp.utils.Router
@@ -36,7 +37,7 @@ class OnBoardingActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Black
                 ) {
                     OnBoardingNavigationHandler()
                 }

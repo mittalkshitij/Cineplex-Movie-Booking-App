@@ -36,12 +36,12 @@ class MainActivity : AppCompatActivity() {
                 when (it) {
                     is Result.Success -> {
                         ImageConfig.imageConfig = it.data
-                        val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                        val intent = Intent(this@MainActivity, OnBoardingActivity::class.java)
                         startActivity(intent)
                     }
 
                     is Result.Error -> {
-                        val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                        val intent = Intent(this@MainActivity, OnBoardingActivity::class.java)
                         startActivity(intent)
                     }
 

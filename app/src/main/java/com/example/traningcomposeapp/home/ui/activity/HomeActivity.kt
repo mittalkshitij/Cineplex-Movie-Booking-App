@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -51,7 +52,7 @@ class HomeActivity : ComponentActivity() {
                 )
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.Black
                 ) {
                     Scaffold(
                         bottomBar = {
@@ -80,18 +81,18 @@ private fun BottomNavBar(
     }
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary
+        containerColor = Color.Black
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         bottomNavItem.forEachIndexed { index, item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = MaterialTheme.colorScheme.secondary,
-                    selectedTextColor = MaterialTheme.colorScheme.secondary,
-                    indicatorColor = MaterialTheme.colorScheme.tertiary,
-                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary
+                    selectedIconColor = Color.Yellow,
+                    selectedTextColor = Color.Yellow,
+                    indicatorColor = Color.Transparent,
+                    unselectedIconColor = Color.White,
+                    unselectedTextColor =Color.White
                 ),
                 selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 label = {

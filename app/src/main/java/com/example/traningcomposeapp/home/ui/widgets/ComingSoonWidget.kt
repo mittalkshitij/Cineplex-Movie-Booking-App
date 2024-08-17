@@ -30,6 +30,8 @@ import com.example.traningcomposeapp.home.domain.model.ScreeningAndUpcomingRespo
 import com.example.traningcomposeapp.ui.theme.TextStyleBold14
 import com.example.traningcomposeapp.ui.theme.TextStyleBold18
 import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
+import com.example.traningcomposeapp.ui.theme.White
+import com.example.traningcomposeapp.ui.theme.Yellow
 
 @Composable
 fun ComingSoonWidget(
@@ -70,7 +72,7 @@ fun ComingSoonWidget(
                     Text(
                         text = movie.title,
                         style = TextStyleBold14,
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = Yellow,
                         overflow = TextOverflow.Clip,
                         modifier = Modifier.padding(top = 12.dp, bottom = 4.dp, end = 4.dp)
                     )
@@ -86,7 +88,7 @@ fun ComingSoonWidget(
                         Text(
                             text = movie.releaseDate,
                             style = TextStyleNormal14,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = White
                         )
                     }
                 }
