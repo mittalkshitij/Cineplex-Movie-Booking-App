@@ -1,5 +1,6 @@
 package com.example.traningcomposeapp.home.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -52,7 +53,7 @@ import com.example.traningcomposeapp.ui.theme.TextStyleNormal14
 import com.example.traningcomposeapp.utils.Constants.EMPTY
 
 @Composable
-fun MyTicketScreen(homeViewModel: HomeViewModel) {
+fun MyTicketScreen(homeViewModel: HomeViewModel, onBackPressed : () -> Unit) {
 
     var movieDetails by remember { mutableStateOf<MovieResults?>(null) }
     var movieBookingDetails by remember { mutableStateOf<MovieBookingDetails?>(null) }
@@ -63,6 +64,10 @@ fun MyTicketScreen(homeViewModel: HomeViewModel) {
 
     homeViewModel.movieResults.collectAsStateWithLifecycle().value?.let {
         movieDetails = it
+    }
+
+    BackHandler {
+        onBackPressed()
     }
 
     LaunchedEffect(Unit) {
@@ -80,7 +85,9 @@ fun MyTicketScreen(homeViewModel: HomeViewModel) {
             .verticalScroll(rememberScrollState())
             .background(colorResource(id = R.color.black))
     ) {
-        AppToolbar(title = "My Ticket") {}
+        AppToolbar(title = "My Ticket") {
+            onBackPressed()
+        }
         TicketSection(movieDetails, movieBookingDetails)
     }
 }

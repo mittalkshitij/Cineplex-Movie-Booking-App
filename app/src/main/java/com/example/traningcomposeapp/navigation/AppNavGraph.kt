@@ -87,7 +87,13 @@ private fun NavGraphBuilder.addHomeRoute(
         }
 
         composable(route = HomeScreen.MyTicket.route) {
-            MyTicketScreen(homeViewModel)
+            MyTicketScreen(homeViewModel) {
+                navController.navigate(HomeScreen.Home.route) {
+                    popUpTo(HomeScreen.Home.route) {
+                        inclusive = false
+                    }
+                }
+            }
         }
     }
 }
@@ -149,7 +155,13 @@ private fun NavGraphBuilder.addMovieRoute(
         }
 
         composable(route = MovieScreen.MyTicket.route) {
-            MyTicketScreen(homeViewModel)
+            MyTicketScreen(homeViewModel) {
+                navController.navigate(HomeScreen.Home.route) {
+                    popUpTo(HomeScreen.Home.route) {
+                        inclusive = false
+                    }
+                }
+            }
         }
     }
 }
